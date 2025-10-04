@@ -7,9 +7,9 @@ from tensorflow.keras.models import load_model
 # -----------------------------
 # Paths
 # -----------------------------
-H5_MODEL_PATH = "models/final_model.h5"         # Original model with batch_shape issue
-WEIGHTS_PATH = "models/final_model_weights.h5"  # Optional: weights-only
-SAVED_MODEL_DIR = "models/final_model_savedmodel"
+H5_MODEL_PATH = "D:/trained-models/final_model.h5"         # Original model with batch_shape issue
+WEIGHTS_PATH = "D:/trained-models/final_model_weights.h5"  # Optional: weights-only
+SAVED_MODEL_DIR = "D:/trained-models/final_model_savedmodel"
 
 # -----------------------------
 # Rebuild the model architecture

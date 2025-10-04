@@ -19,7 +19,7 @@ test_generator = test_datagen.flow_from_directory(
 )
 
 # Load model
-model = tf.keras.models.load_model("models/final_model_savedmodel")
+model = tf.keras.models.load_model("D:/trained-models/final_model_savedmodel")
 
 # Compile (needed for evaluation)
 model.compile(

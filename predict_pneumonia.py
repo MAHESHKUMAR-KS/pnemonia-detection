@@ -1,4 +1,5 @@
 import streamlit as st
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
@@ -14,10 +15,18 @@ st.write("Upload one or more chest X-ray images to predict NORMAL or PNEUMONIA."
 # -----------------------------
 # Load SavedModel
 # -----------------------------
-MODEL_PATH = "models/final_model.h5"
+MODEL_PATH = "D:/trained-models/final_model.h5"
 
 try:
-    model = load_model(MODEL_PATH, compile=False)
+    # Custom object scope to handle model loading issues
+    with tf.keras.utils.custom_object_scope({'softmax': tf.nn.softmax}):
+        model = load_model(MODEL_PATH, compile=False)
+    
+    # Compile the model with basic settings
+    model.compile(optimizer='adam',
+                 loss='binary_crossentropy',
+                 metrics=['accuracy'])
+    
     st.success("✅ Model loaded successfully!")
 except Exception as e:
     st.error(f"Error loading model: {e}")
@@ -41,12 +50,24 @@ uploaded_files = st.file_uploader(
 # Preprocess images
 # -----------------------------
 def preprocess_image(img, target_size=(input_width, input_height)):
+    # Convert to RGB if needed
     if img.mode != "RGB":
         img = img.convert("RGB")
-    img = img.resize(target_size)
+    
+    # Resize with high-quality settings
+    img = img.resize(target_size, Image.Resampling.LANCZOS)
+    
+    # Convert to array and normalize
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
+    
+    # Standard preprocessing
+    img_array = img_array.astype('float32')
     img_array /= 255.0
+    
+    # Additional preprocessing that might help
+    img_array = tf.image.per_image_standardization(img_array)
+    
     return img_array
 
 # -----------------------------
