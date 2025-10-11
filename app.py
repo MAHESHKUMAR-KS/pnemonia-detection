@@ -8,7 +8,7 @@ from PIL import Image
 # -----------------------------
 # Load Model & Class Indices
 # -----------------------------
-MODEL_PATH = "models/final_model.h5" # Use your saved model path
+MODEL_PATH = "models/final_model.h5" 
 CLASS_INDICES_PATH = "models/class_indices.json"
 
 # Load trained model
